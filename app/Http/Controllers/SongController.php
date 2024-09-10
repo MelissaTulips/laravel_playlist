@@ -9,10 +9,10 @@ use App\Models\Playlist;
 class SongController extends Controller {
 
 
-    public function create($playlistId)
+    public function index()
     {
-        $playlist = Playlist::findOrFail($playlistId);
-        return view('song.create', compact('playlist'));
+        $songs = Song::all();
+        return view('songs.index', compact('songs'));
     }
 
     public function store(Request $request)
