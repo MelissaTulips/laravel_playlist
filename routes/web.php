@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\PlaylistController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\SongController; // Add this line
+use App\Http\Controllers\SongController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -11,8 +11,11 @@ Route::get('/', function () {
 
 Route::resource('playlist', PlaylistController::class);
 
-Route::get('playlist/{playlist}/song/create', [SongController::class, 'create'])->name('song.create');
-Route::post('playlist/{playlist}/song', [SongController::class, 'store'])->name('song.store');
+// Songs Routes
+Route::post('/songs', [SongController::class, 'store'])->name('songs.store');
+Route::get('/songs/{song}/edit', [SongController::class, 'edit'])->name('songs.edit');
+Route::put('/songs/{song}', [SongController::class, 'update'])->name('songs.update');
+Route::delete('/songs/{song}', [SongController::class, 'destroy'])->name('songs.destroy');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

@@ -49,6 +49,7 @@
     </style>
 
 
+
     <div class="flex justify-end mb-4">
         <a href="{{ route('playlist.create') }}" class="button">
             <div class="button-overlay"></div>

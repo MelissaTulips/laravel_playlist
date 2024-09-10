@@ -15,21 +15,65 @@ class SongController extends Controller {
         return view('song.create', compact('playlist'));
     }
 
-    public function store(Request $request, $playlistId)
+    public function store(Request $request)
     {
         $request->validate([
-            'title' => 'required|string|max:255',
-            'artist' => 'required|string|max:255',
-            'genre' => 'required|string|max:255',
+            'title' => 'required',
+            'artist' => 'required',
+            'genre' => 'required',
+            'playlist_id' => 'required|exists:playlists,id'
         ]);
 
-        $playlist = Playlist::findOrFail($playlistId);
-        $playlist->songs()->create([
+        Song::create([
+            'title' => $request->input('title'),
+            'artist' => $request->input('artist'),
+            'genre' => $request->input('genre'),
+            'playlist_id' => $request->input('playlist_id')
+        ]);
+
+        return redirect()->route('playlist.show', $request->input('playlist_id'))
+                         ->with('success', 'Song added successfully!');
+    }
+
+    /**
+     * Show the form for editing a song.
+     */
+    public function edit(Song $song)
+    {
+        return view('songs.edit', compact('song'));
+    }
+
+    /**
+     * Update the specified song.
+     */
+    public function update(Request $request, Song $song)
+    {
+        $request->validate([
+            'title' => 'required',
+            'artist' => 'required',
+            'genre' => 'required'
+        ]);
+
+        $song->update([
             'title' => $request->input('title'),
             'artist' => $request->input('artist'),
             'genre' => $request->input('genre'),
         ]);
 
-        return redirect()->route('playlist.show', $playlistId)->with('success', 'Song added successfully!');
+        return redirect()->route('playlist.show', $song->playlist_id)
+                         ->with('success', 'Song updated successfully!');
+    }
+
+    /**
+     * Remove the specified song.
+     */
+    public function destroy(Song $song)
+    {
+        $playlist_id = $song->playlist_id;
+        $song->delete();
+
+        return redirect()->route('playlist.show', $playlist_id)
+                         ->with('success', 'Song deleted successfully!');
     }
 }
+
