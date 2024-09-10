@@ -48,6 +48,7 @@
         }
     </style>
 
+
     <div class="flex justify-end mb-4">
         <a href="{{ route('playlist.create') }}" class="button">
             <div class="button-overlay"></div>
@@ -61,7 +62,7 @@
         <div class="w-full rounded overflow-hidden shadow-lg p-4 bg-white mb-4">
             <div class="flex justify-between">
                 <div>       
-                    <a class=" hover:drop-shadow transform hover:bg-gray-100 font-bold text-xl mb-2" href="{{ route('playlist.show', $playlist->id) }}">
+                    <a class="hover:drop-shadow transform hover:bg-gray-100 font-bold text-xl mb-2" href="{{ route('playlist.show', $playlist->id) }}">
                         {{ $playlist->name }}
                     </a>     
                     <div class="px-6 pt-4 pb-2">
@@ -69,7 +70,7 @@
                     </div>
                 </div>
                 <div>
-                    <a href="{{ route('playlist.show', $playlist->id) }}" class="bg-blue-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded mr-2">
+                    <a href="{{ route('playlist.show', $playlist->id) }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2">
                         View
                     </a>
                     <a href="{{ route('playlist.edit', $playlist->id) }}" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded mr-2">
@@ -85,28 +86,26 @@
                 </div>
             </div>
             <div class="px-6 pt-4 pb-2">
-                <table class="w-full table-auto">
-                    <tbody>
-                        <tr>
-                            <td class="border px-4 py-2">Song 1</td>
-                        </tr>
-                        <tr>
-                            <td class="border px-4 py-2">Song 2</td>
-                        </tr>
-                        <tr>
-                            <td class="border px-4 py-2">Song 3</td>
-                        </tr>
-                        <tr>
-                            <td class="border px-4 py-2">Song 4</td>
-                        </tr>
-                        <tr>
-                            <td class="border px-4 py-2">Song 5</td>
-                        </tr>
-                        <tr>
-                            <td class="border px-4 py-2">Song 6</td>
-                        </tr>
-                    </tbody>
-                </table>
+                @if($playlist->songs->count() > 0)
+                    <table class="w-full table-auto">
+                        <thead>
+                            <tr>
+                                <th class="border px-4 py-2">Title</th>
+                                <th class="border px-4 py-2">Artist</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($playlist->songs as $song)
+                                <tr>
+                                    <td class="border px-4 py-2">{{ $song->title }}</td>
+                                    <td class="border px-4 py-2">{{ $song->artist }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                @else
+                    <p class="text-center">No songs in this playlist yet.</p>
+                @endif
             </div>
         </div>
         @endforeach

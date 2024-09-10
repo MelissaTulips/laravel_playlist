@@ -17,16 +17,17 @@ return new class extends Migration
             $table->string('title');
             $table->string('artist');
             $table->string('genre');
+            $table->foreignId('playlist_id')->constrained()->onDelete('cascade'); // Foreign key to playlists
         });
-        
+    
         Schema::create('playlists', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
             $table->string('name');
             $table->string('tag');
-            
         });
     }
+    
 
     /**
      * Reverse the migrations.
